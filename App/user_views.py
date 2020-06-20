@@ -224,3 +224,169 @@ def sub_user_per():
 
         # 重定向到 roles_list 函数, user:蓝图名称
         return render_template('user_per_list.html', pers=pers, r_id=r_id)
+
+
+@user_bp.route('/user/', methods=['GET'])
+@is_login
+def user_list():
+    """
+    用户列表
+    :return:
+    """
+    if request.method == 'GET':
+        # 页码
+        page = int(request.args.get('page', 1))
+        # 页面数据
+        page_num = int(request.args.get('page_num', 10))
+
+        paginate = User.query.order_by('u_id').paginate(page, page_num)
+
+        users = paginate.items
+
+        return render_template('user/user_list.html', users=users)
+
+
+@user_bp.route('/user_edit/', methods=['GET', 'POST'])
+@is_login
+def edit_user():
+    """
+    用户添加编辑
+    :return:
+    """
+    if request.method == 'GET':
+        u_id = request.args.get('u_id', None)
+
+        if u_id:
+            user = User.query.get(u_id=int(u_id))
+            username = user.username
+
+            # g_name = Grade.query.filter(Grade.g_id==g_id).first().g_name
+
+        return render_template('user/user_edit.html', locals())
+
+    if request.method == 'POST':
+        # 获取用户注册信息
+        username = request.form['username']
+        pwd1 = request.form['pwd1']
+        pwd2 = request.form['pwd2']
+
+        # 定义个变量来控制过滤用户填写的信息
+        flag = True
+        # 判断用户是否信息都填写了.(all()函数可以判断序列中数据是否用空)
+        if not all([username, pwd1, pwd2]):
+            msg, flag = '请填写完整用户信息！', False
+
+        if len(username) > 20:
+            msg, flag = '用户名过长！', False
+
+        if pwd1 != pwd2:
+            msg, flag = '两次密码输入不一致！', False
+
+        # 核对用户名是否已经被注册
+        u = User.query.filter_by(username=username)
+
+        if u:
+            msg, flag = '用户已被注册！', False
+
+        if not flag:
+            return render_template('user/user_edit.html', msg=msg)
+
+        if 'u_id' in request.form and request.form['u_id']:
+            user = User.query.get(u_id=int(request.form['u_id']))
+
+        else:
+            user = User()
+
+        user.username = username
+        user.password = pwd1
+
+        user.save()
+
+        return redirect(url_for('user.user_list'))
+
+
+@user_bp.route('/role_assign/', methods=['GET', 'POST'])
+@is_login
+def assign_user_role():
+    """
+    分配用户权限
+    """
+    if request.method == 'GET':
+
+        u_id = request.args.get('u_id')
+        roles = Role.query.all()
+
+        return render_template('assign_user_role.html', roles=roles, u_id=u_id)
+
+    if request.method == 'POST':
+
+        r_id = request.form.get('r_id')
+        u_id = request.form.get('u_id')
+
+        user = User.query.filter_by(u_id=u_id).first()
+        user.role_id = r_id
+
+        db.session.commit()
+
+        return redirect(url_for('user.user_list'))
+
+
+@user_bp.route('/pwd_change/', methods=['GET', 'POST'])
+@is_login
+def change_password():
+    """
+    修改用户密码
+    """
+    if request.method == 'GET':
+        username = session.get('username')
+
+        user = User.query.filter_by(username=username).first()
+
+        return render_template('pwd_change.html', user=user)
+
+    if request.method == 'POST':
+
+        username = session.get('username')
+        pwd1 = request.form.get('pwd1')
+        pwd2 = request.form.get('pwd2')
+        pwd3 = request.form.get('pwd3')
+
+        pwd = User.query.filter_by(password=pwd1, username=username).first()
+
+        if not pwd:
+            msg = '请输入正确的旧密码'
+            username = session.get('username')
+            user = User.query.filter_by(username=username).first()
+
+            return render_template('pwd_change.html', msg=msg, user=user)
+        else:
+
+            if not all([pwd2, pwd3]):
+                msg = '密码不能为空'
+                username = session.get('username')
+                user = User.query.filter_by(username=username).first()
+
+                return render_template('pwd_change.html', msg=msg, user=user)
+
+        if pwd2 != pwd3:
+            msg = '两次密码不一致,请重新输入'
+            username = session.get('username')
+            user = User.query.filter_by(username=username).first()
+
+            return render_template('pwd_change.html', msg=msg, user=user)
+
+        pwd.password = pwd2
+
+        db.session.commit()
+
+        return redirect(url_for('user.change_pass_sucess'))
+
+
+@user_bp.route('/pwd_change_su/', methods=['GET'])
+@is_login
+def change_pass_sucess():
+    """
+    修改密码成功后
+    """
+    if request.method == 'GET':
+        return render_template('pwd_change_su.html')
