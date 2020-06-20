@@ -12,7 +12,7 @@ from utils.check_login import is_login
 from .models import User, Role, Permission
 
 
-user_bp = Blueprint('user_bp', __name__)
+user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route('/home/', methods=['GET'])
@@ -141,6 +141,7 @@ def logout():
 
         # 清空session
         session.clear()
+
         # 跳转到登录页面
         return redirect(url_for('user.login'))
 
@@ -171,3 +172,55 @@ def add_user_per():
     if request.method == 'GET':
         r_id = request.form.get('r_id')
         pers = Permission.query.all()
+
+        return render_template('add_user_per.html', pers=pers, r_id=r_id)
+
+    if request.method == 'POST':
+        r_id = request.form.get('r_id')
+        p_id = request.form.get('p_id')
+
+        # 获取对象角色
+        role = Role.query.get(r_id=r_id)
+        # 获取权限对象
+        per = Permission.query.get(p_id=p_id)
+
+        # 添加对应关系
+        per.roles.append(role)
+
+        per.save()
+
+        # 重定向到 roles_list 函数, user:蓝图名称
+        return redirect(url_for('user.roles_list'))
+
+
+@user_bp.route('/user_per_sub/', methods=['GET', 'POST'])
+@is_login
+def sub_user_per():
+    """
+    用户权限减少
+    :return:
+    """
+    if request.method == 'GET':
+        r_id = request.form.get('r_id')
+        pers = Role.query.get(r_id=r_id).permission
+
+        return render_template('user_per_list.html', pers=pers, r_id=r_id)
+
+    if request.method == 'POST':
+        r_id = request.form.get('r_id')
+        p_id = request.form.get('p_id')
+
+        # 获取对象角色
+        role = Role.query.get(r_id=r_id)
+        # 获取权限对象
+        per = Permission.query.get(p_id=p_id)
+
+        # 添加对应关系
+        per.roles.remove(role)
+
+        db.session.commit()
+
+        pers = Role.query.get(r_id=r_id).permission
+
+        # 重定向到 roles_list 函数, user:蓝图名称
+        return render_template('user_per_list.html', pers=pers, r_id=r_id)

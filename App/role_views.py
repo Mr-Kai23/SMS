@@ -5,7 +5,7 @@
 # @Desc    :   用户视图
 # ======================================================
 
-from flask import request, render_template
+from flask import request, render_template, redirect, url_for
 from utils.check_login import is_login
 from .models import Role
 from .user_views import user_bp
@@ -66,3 +66,6 @@ def edit_role():
         role.r_name = r_name
 
         role.save()
+
+        # 重定向到 roles_list 方法
+        return redirect(url_for('user.roles_list'))
