@@ -17,6 +17,12 @@ from flask_migrate import MigrateCommand, Migrate
 
 app = create_app()
 
+
+@app.route('/')
+def redirect_login():
+    return redirect(url_for('user.login'))
+
+
 manage = Manager(app)
 
 # 数据库迁移

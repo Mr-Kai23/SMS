@@ -7,6 +7,7 @@
 
 from flask import Blueprint, request, render_template, session, redirect, url_for
 from flask_login import login_required
+
 from .models import db
 from utils.check_login import is_login
 from .models import User, Role, Permission
@@ -72,9 +73,12 @@ def left():
         # 获取用户
         user = session.get('username')
         # 获取用户权限
-        permissions = User.query.filter_by(username=user).first().role.permission
+        user = User.query.filter_by(username=user).first()
 
-        return render_template('left.html', permissions=permissions)
+        if user:
+            permissions = user.role.permisson
+
+        return render_template('left.html', locals())
 
 
 @user_bp.route('/register/', methods=['GET', 'POST'])
@@ -106,7 +110,7 @@ def register():
             msg, flag = '两次密码输入不一致！', False
 
         # 核对用户名是否已经被注册
-        u = User.query.filter_by(username=username)
+        u = User.query.filter_by(username=username).first()
 
         if u:
             msg, flag = '用户已被注册！', False
@@ -248,7 +252,7 @@ def sub_user_per():
         return render_template('user_per_list.html', pers=pers, r_id=r_id)
 
 
-@user_bp.route('/user/', methods=['GET'])
+@user_bp.route('/user_list/', methods=['GET'])
 @is_login
 def user_list():
     """
@@ -305,7 +309,7 @@ def edit_user():
             msg, flag = '两次密码输入不一致！', False
 
         # 核对用户名是否已经被注册
-        u = User.query.filter_by(username=username)
+        u = User.query.filter_by(username=username).first()
 
         if u:
             msg, flag = '用户已被注册！', False

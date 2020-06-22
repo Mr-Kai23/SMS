@@ -51,7 +51,7 @@ def edit_permission():
 
         else:
             # 权限名称
-            p_name_test_repeat = Permission.query.filter_by(p_name=p_name)
+            p_name_test_repeat = Permission.query.filter_by(p_name=p_name).first()
 
             if p_name_test_repeat:
                 msg = '权限名称重复!'
@@ -59,7 +59,7 @@ def edit_permission():
                 return render_template('permission/permission_edit.html', msg=msg)
 
             # 权限简称
-            p_er_test_repeat = Permission.query.filter_by(p_er=p_er)
+            p_er_test_repeat = Permission.query.filter_by(p_er=p_er).first()
 
             if p_er_test_repeat:
                 msg1 = '权限简写名重复!'

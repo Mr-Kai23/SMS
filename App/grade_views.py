@@ -20,7 +20,7 @@ def grades_list():
     """
     if request.method == 'GET':
         # 查询第几页数据
-        page = int(request.args.get('page'), 1)
+        page = int(request.args.get('page', 1))
         # 查询每页的数据是多少，默认为10条
         page_num = int(request.args.get('page_num', 10))
         # 查询当前第几页的多少条数据

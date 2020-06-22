@@ -39,7 +39,7 @@
                 <td>{{user.username}}</td>
                 <td>{{user.role.r_name}}</td>
                 <td>
-                    <a href="/user/assignrole/?u_id={{user.u_id}}">分配角色</a> |
+                    <a href="/user/role_assign/?u_id={{user.u_id}}">分配角色</a> |
                     <a href="">删除</a>
                 </td>
             </tr>
@@ -51,16 +51,16 @@
 
     <ul id="PageNum">
 
-        <li><a href="/user/userlist/?page=1">首页</a></li>
+        <li><a href="/user/user_list/?page=1">首页</a></li>
         {% if paginate.has_prev %}
-            <li><a href="/user/userlist/?page={{ paginate.prev_num }}">上一页</a></li>
+            <li><a href="/user/user_list/?page={{ paginate.prev_num }}">上一页</a></li>
         {% endif %}
 
         {% for p  in paginate.iter_pages() %}
             <li>
                 {% if p %}
                     {% if p != paginate.page %}
-                    <a href="/user/userlist/?page={{ p }}">{{ p }}</a>
+                    <a href="/user/user_list/?page={{ p }}">{{ p }}</a>
                     {% else %}
                     <span> {{ p }} </span>
                     {% endif %}
@@ -71,9 +71,9 @@
         {% endfor  %}
 
         {% if paginate.has_next %}
-            <li><a href="/user/userlist/?page={{ paginate.next_num }}">下一页</a></li>
+            <li><a href="/user/user_list/?page={{ paginate.next_num }}">下一页</a></li>
         {% endif %}
-            <li><a href="/user/userlist/?page={{ paginate.pages }}">尾页</a></li>
+            <li><a href="/user/user_list/?page={{ paginate.pages }}">尾页</a></li>
         <span>| 共{{paginate.pages}}页 | 当前第{{paginate.page}}页</span>
     </ul>
 </div>

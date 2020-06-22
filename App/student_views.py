@@ -60,7 +60,7 @@ def edit_student():
             student = Student.query.get(s_id=int(request.form['s_id']))
 
         else:
-            stu = Student.query.filter_by(s_name=s_name, grade_id=grade_id)
+            stu = Student.query.filter_by(s_name=s_name, grade_id=grade_id).first()
 
             if stu:
                 msg = '班级中学生名字不能重复！！'
