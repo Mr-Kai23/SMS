@@ -17,7 +17,7 @@ class Grade(db.Model):
     """
     班级模型
     """
-    g_id = db.Column('grade_id', db.Integer, autoincrement=True, primary_key=True)
+    g_id = db.Column('g_id', db.Integer, autoincrement=True, primary_key=True)
     g_name = db.Column(db.String(20), unique=True)
     g_create_time = db.Column(db.DateTime, default=datetime.now)
 
@@ -39,7 +39,7 @@ class Student(db.Model):
     """
     学生模型
     """
-    s_id = db.Column('student_id', db.Integer, autoincrement=True, primary_key=True)
+    s_id = db.Column('s_id', db.Integer, autoincrement=True, primary_key=True)
     s_name = db.Column(db.String(20))
     s_sex = db.Column(db.Integer)
     # 设置与班级 一对多的关联关系
@@ -62,7 +62,7 @@ class User(db.Model):
     """
     用户模型
     """
-    u_id = db.Column('user_id', db.Integer, autoincrement=True, primary_key=True)
+    u_id = db.Column('u_id', db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(100))
     u_create_time = db.Column(db.DateTime, default=datetime.now)
@@ -94,7 +94,7 @@ class Role(db.Model):
     """
     角色模型
     """
-    r_id = db.Column('role_id', db.Integer, autoincrement=True, primary_key=True)
+    r_id = db.Column('r_id', db.Integer, autoincrement=True, primary_key=True)
     r_name = db.Column(db.String(20))
     # 用户和角色一对多的关联关系, backref:user取角色时的引用名
     users = db.relationship('User', backref='role')
@@ -114,7 +114,7 @@ class Permission(db.Model):
     """
     权限模型
     """
-    p_id = db.Column('permission_id', db.Integer, autoincrement=True, primary_key=True)
+    p_id = db.Column('p_id', db.Integer, autoincrement=True, primary_key=True)
     p_name = db.Column(db.String(20), unique=True)
     p_er = db.Column(db.String(16), unique=True)
 

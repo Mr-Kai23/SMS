@@ -29,7 +29,7 @@ def create_app():
     app.register_blueprint(blueprint=user_bp, url_prefix='/user')
 
     # 配置数据库
-    app.config['SQLALCHEMY_DATABASE_URL'] = 'mysql://root:root123456@127.0.0.1:3306/SMS'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123456@127.0.0.1:3306/SMS'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # 设置session秘钥
