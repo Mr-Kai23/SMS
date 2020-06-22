@@ -37,7 +37,7 @@ def create_app():
     # 设置session存储库， 使用redis
     app.config['SESSION_TYPE'] = 'redis'
     # 连接redis
-    app.config['SESSION_REDIS'] =redis.Redis(host='127.0.0.1', port=6379, db=1)
+    app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port=6379, db=1)
 
     # 初始化db
     db.init_app(app=app)

@@ -7,7 +7,7 @@
 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from .user_views import user_bp
+
 
 # 初始化db
 db = SQLAlchemy()
@@ -119,7 +119,7 @@ class Permission(db.Model):
     p_er = db.Column(db.String(16), unique=True)
 
     # 角色和权限的多对多的关系，backref:role取权限时的引用名
-    roles = db.relationship('Role', secondery=r_p, backref=db.backref('permission', lazy=True))
+    roles = db.relationship('Role', secondary=r_p, backref=db.backref('permission', lazy=True))
 
     # 表名
     __tablename__ = 'permission'
@@ -131,25 +131,3 @@ class Permission(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
-
-@user_bp.route('/create_db/')
-def create_db():
-    """
-    创建数据库
-    :return:
-    """
-
-    db.create_all()
-
-
-@user_bp.route('/drop_db/')
-def drop_db():
-    """
-    删除数据库
-    :return:
-    """
-
-    db.drop_all()
-
-    return '删除成功！'

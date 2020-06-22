@@ -7,7 +7,11 @@
 
 from flask_script import Manager
 from utils.functions import create_app
-from App import *
+from App.user_views import *
+from App.permission_views import *
+from App.grade_views import *
+from App.role_views import *
+from App.student_views import *
 
 app = create_app()
 

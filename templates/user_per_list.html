@@ -25,42 +25,30 @@
 <!-- MainForm -->
 <div id="MainForm">
     <div class="form_boxA">
-        <h2>权限列表</h2>
+        <h2>{{user}}权限列表</h2>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <th>序号</th>
-                <th>权限名称</th>
+                <th>角色名称</th>
                 <th>简写</th>
                 <th>操作</th>
             </tr>
-            {% for permission in permissions %}
+            {% for p in pers%}
             <tr>
-                <td>{{permission.p_id}}</td>
-                <td>{{permission.p_name}}</td>
-                <td>{{permission.p_er}}</td>
+                <td>{{p.p_id}}</td>
+                <td>{{p.p_name}}</td>
+                <td>{{p.p_er}}</td>
                 <td>
-                    <a href="/user/permission_edit/?p_id={{permission.p_id}}">编辑</a> |
-                    <a href="">删除</a>
+                    <form action="" method="post">
+                        <input type="hidden" name="p_id" value="{{p.p_id}}">
+                        <input type="hidden" name="r_id" value="{{r_id}}">
+                        <input type="submit" value="删除" style="background: none;border: none;color: deepskyblue">
+                    </form>
                 </td>
             </tr>
             {% endfor %}
-
-
         </table>
     </div>
-
-    <ul id="PageNum">
-        <li><a href="#">首页</a></li>
-        <li><a href="#">上一页</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li><a href="#">下一页</a></li>
-        <li><a href="#">尾页</a></li>
-    </ul>
 
 </div>
 

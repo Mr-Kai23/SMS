@@ -15,6 +15,28 @@ from .models import User, Role, Permission
 user_bp = Blueprint('user', __name__)
 
 
+@user_bp.route('/create_db/')
+def create_db():
+    """
+    创建数据库
+    :return:
+    """
+
+    db.create_all()
+
+
+@user_bp.route('/drop_db/')
+def drop_db():
+    """
+    删除数据库
+    :return:
+    """
+
+    db.drop_all()
+
+    return '删除成功！'
+
+
 @user_bp.route('/home/', methods=['GET'])
 @is_login
 def home():
@@ -26,7 +48,7 @@ def home():
         return render_template('index.html')
 
 
-@user_bp.route('/head', methods=['GET'])
+@user_bp.route('/head/', methods=['GET'])
 @is_login
 def head():
     """
