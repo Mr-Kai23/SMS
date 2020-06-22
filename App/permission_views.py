@@ -34,7 +34,7 @@ def edit_permission():
     if request.method == 'GET':
 
         # 如果是编辑，就会获取到p_id
-        p_id = request.form.get('p_id', None)
+        p_id = request.args.get('p_id', None)
 
         if p_id:
             permission = Permission.query.get(int(p_id))
