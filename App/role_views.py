@@ -13,7 +13,7 @@ from .user_views import user_bp
 
 @user_bp.route('/role/', methods=['GET'])
 @is_login
-def roles_list():
+def role_list():
     """
     角色信息列表
     :return:
@@ -43,15 +43,18 @@ def edit_role():
         r_id = request.args.get('r_id', None)
 
         if r_id:
-            r_name = Role.query.get(r_id=int(r_id)).r_name
+            role = Role.query.get(r_id=int(r_id))
+        else:
+            role = None
 
-        return render_template('role/role_edit.html', locals())
+        return render_template('role/role_edit.html', role=role)
 
     if request.method == 'POST':
         r_name = request.form['r_name']
 
         if 'r_id' in request.form and request.form['r_id']:
             role = Role.query.get(r_id=int(request.form['r_id']))
+            role.r_name = r_name
 
         else:
             r = Role.query.filter_by(r_name=r_name).first()
@@ -61,11 +64,9 @@ def edit_role():
 
                 return render_template('role/role_edit.html', msg=msg)
 
-            role = Role()
-
-        role.r_name = r_name
+            role = Role(name=r_name)
 
         role.save()
 
         # 重定向到 roles_list 方法
-        return redirect(url_for('user.roles_list'))
+        return redirect(url_for('user.role_list'))

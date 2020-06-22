@@ -182,9 +182,9 @@ def user_per_list():
         # 角色id
         r_id = request.args.get('r_id')
         # 权限
-        pers = Role.query.get(r_id=r_id).permission
+        permissions = Role.query.get(int(r_id)).permission
 
-        return render_template('permission/permission_list.html', pers=pers)
+        return render_template('permission/permission.html', permissions=permissions)
 
 
 @user_bp.route('/user_per_add/', methods=['GET', 'POST'])

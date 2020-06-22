@@ -62,8 +62,8 @@
                         <th width="100">权限名称</th>
                         <td>
                             <div class="selectbox" style="width:300px;">
-                                <input type="hidden" value="{{pers.p_id}}" name="p_id">
-                                <input type="text" name="p_name" placeholder="请填入权限名称" value="{{pers.p_name}}">
+                                <input type="hidden" value="{{ permission.p_id}}" name="p_id">
+                                <input type="text" name="p_name" placeholder="请填入权限名称" value="{{ permission.p_name }}">
                                 <span style="color: red">{{msg}}</span>
                             </div>
                         </td>
@@ -72,7 +72,7 @@
                         <th width="100">简写</th>
                         <td>
                             <div class="selectbox" style="width:300px;">
-                                <input type="text" name="p_er" placeholder="请填入权限英文名称" value="{{pers.p_er}}">
+                                <input type="text" name="p_er" placeholder="请填入权限英文名称" value="{{ permission.p_er }}">
                                 <span style="color: red">{{msg1}}</span>
                             </div>
                         </td>

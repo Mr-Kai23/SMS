@@ -32,22 +32,26 @@ def edit_permission():
     :return:
     """
     if request.method == 'GET':
-        pers = Permission.query.all()
 
         # 如果是编辑，就会获取到p_id
         p_id = request.form.get('p_id', None)
 
         if p_id:
-            p_name = Permission.query.get('p_id').p_name
+            permission = Permission.query.get(int(p_id))
+        else:
+            permission = None
 
-        return render_template('permission/permission_edit.html', locals())
+        return render_template('permission/permission_edit.html', permission=permission)
 
     if request.method == 'POST':
         p_name = request.form.get('p_name')
         p_er = request.form.get('p_er')
 
         if 'p_id' in request.form and request.form['p_id']:
-            permission = Permission.query.get(p_id=int(request.form['p_id']))
+            permission = Permission.query.get(int(request.form['p_id']))
+
+            permission.p_name = p_name
+            permission.p_er = p_er
 
         else:
             # 权限名称
@@ -66,10 +70,7 @@ def edit_permission():
 
                 return render_template('permission/permission_edit.html', msg=msg1)
 
-            permission = Permission()
-
-        permission.p_name = p_name
-        permission.p_er = p_er
+            permission = Permission(name=p_name, er=p_er)
 
         permission.save()
 
