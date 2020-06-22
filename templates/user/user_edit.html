@@ -55,11 +55,13 @@
 
             <form action="" method="post">
                 <table cellpadding="0" cellspacing="0">
+                    <input name="u_id" type="text" size="5" {% if user %} value="{{ user.u_id }}" {% endif %} style="display: none">
                     <tr>
                         <th>姓名 <span class="f_cB">*</span></th>
                         <td>
                             <div class="txtbox floatL" style="width:100px;">
-                                <input name="username" type="text" size="5" value=""></div>
+                                <input name="username" type="text" size="5" {% if user %} value="{{ user.username }}" {% endif %}>
+                            </div>
                         </td>
                     </tr>
 

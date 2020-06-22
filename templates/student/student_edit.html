@@ -58,10 +58,10 @@
             <form action="" method="post">
                 <table cellpadding="0" cellspacing="0">
                     <tr>
-                        <th>员工姓名 <span class="f_cB">*</span></th>
+                        <th>学生姓名 <span class="f_cB">*</span></th>
                         <td>
                             <div class="txtbox floatL" style="width:200px;">
-                                <input name="s_name" type="text" size="5" value="">
+                                <input name="s_name" type="text" size="5" {% if student %} value="{{ student.s_name }}" {% endif %}>
                                 <span style="color: red">{{msg}}</span>
                             </div>
                         </td>
@@ -72,9 +72,9 @@
                         <td><!-- selectbox -->
                             <div class="selectbox" style="width:230px;">
                                 <dl class="select">
-                                    <select name="s_sex" id="">
-                                        <option value="1">男</option>
-                                        <option value="0">女</option>
+                                    <select name="s_sex">
+                                        <option value="1" {% if student and student.s_sex == 1%} selected {% endif %} >男</option>
+                                        <option value="0" {% if student and student.s_sex == 0%} selected {% endif %} >女</option>
                                     </select>
                                 </dl>
                             </div>
@@ -88,7 +88,7 @@
                                 <dl class="select">
                                     <select name="g_name" id="">
                                         {% for grade in grades %}
-                                        <option value="{{grade.g_id}}">{{grade.g_name}}</option>
+                                        <option value="{{grade.g_id}}" {% if student and student.grade_id == grade.g_id %} selected {% endif %} >{{ grade.g_name }}</option>
                                         {% endfor %}
                                     </select>
                                 </dl>

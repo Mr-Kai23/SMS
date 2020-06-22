@@ -21,7 +21,7 @@ def permission_list():
     if request.method == 'GET':
         permissions = Permission.query.all()
 
-    return render_template('permissions.html', permissions=permissions)
+        return render_template('permission/permission.html', permissions=permissions)
 
 
 @user_bp.route('/permission_edit/', methods=['GET', 'POST'])

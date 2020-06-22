@@ -75,10 +75,7 @@ def left():
         user = session.get('username')
 
         # 获取用户权限
-        user = User.query.filter_by(username=user).first()
-
-        if user:
-            permissions = user.role.permission
+        permissions = User.query.filter_by(username=user).first().role.permission
 
         return render_template('left.html', permissions=permissions)
 
@@ -271,7 +268,7 @@ def user_list():
 
         users = paginate.items
 
-        return render_template('user/user_list.html', users=users)
+        return render_template('user/user_list.html', users=users, paginate=paginate)
 
 
 @user_bp.route('/user_edit/', methods=['GET', 'POST'])
@@ -285,12 +282,11 @@ def edit_user():
         u_id = request.args.get('u_id', None)
 
         if u_id:
-            user = User.query.get(u_id=int(u_id))
-            username = user.username
+            user = User.query.get(int(u_id))
+        else:
+            user = None
 
-            # g_name = Grade.query.filter(Grade.g_id==g_id).first().g_name
-
-        return render_template('user/user_edit.html', locals())
+        return render_template('user/user_edit.html', user=user)
 
     if request.method == 'POST':
         # 获取用户注册信息

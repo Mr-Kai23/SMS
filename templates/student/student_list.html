@@ -33,12 +33,15 @@
                 <th>班级</th>
                 <th>操作</th>
             </tr>
-            {% for stu in stus%}
+            {% for stu in students%}
             <tr>
                 <td>{{stu.s_id}}</td>
                 <td>{{stu.s_name}}</td>
                 <td>{{stu.grade.g_name}}</td>
-                <td><a href="p2.html">删除</a></td>
+                <td>
+                    <a href="/user/student_edit/?s_id={{ stu.s_id }}">编辑</a> |
+                    <a href="p2.html">删除</a>
+                </td>
             </tr>
             {% endfor %}
         </table>

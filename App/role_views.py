@@ -29,7 +29,7 @@ def roles_list():
         # 获取某页的具体数据
         roles = paginate.items
 
-        return render_template('role/role_list.html', roles=roles)
+        return render_template('role/role_list.html', roles=roles, paginate=paginate)
 
 
 @user_bp.route('/role_edit/', methods=['GET', 'POST'])
