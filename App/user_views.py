@@ -70,15 +70,17 @@ def left():
     :return:
     """
     if request.method == 'GET':
+
         # 获取用户
         user = session.get('username')
+
         # 获取用户权限
         user = User.query.filter_by(username=user).first()
 
         if user:
-            permissions = user.role.permisson
+            permissions = user.role.permission
 
-        return render_template('left.html', locals())
+        return render_template('left.html', permissions=permissions)
 
 
 @user_bp.route('/register/', methods=['GET', 'POST'])
