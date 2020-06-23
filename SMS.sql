@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.13, for macos10.14 (x86_64)
 --
--- Host: 127.0.0.1    Database: SMS
+-- Host: 127.0.0.1    Database: sms
 -- ------------------------------------------------------
 -- Server version	8.0.13
 
@@ -51,7 +51,7 @@ CREATE TABLE `grade` (
   `g_create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`g_id`),
   UNIQUE KEY `g_name` (`g_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,6 +60,7 @@ CREATE TABLE `grade` (
 
 LOCK TABLES `grade` WRITE;
 /*!40000 ALTER TABLE `grade` DISABLE KEYS */;
+INSERT INTO `grade` VALUES (1,'Python','2020-06-23 19:16:29'),(2,'Java','2020-06-23 19:16:34'),(3,'Golang','2020-06-23 19:16:38');
 /*!40000 ALTER TABLE `grade` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +114,7 @@ CREATE TABLE `r_p` (
 
 LOCK TABLES `r_p` WRITE;
 /*!40000 ALTER TABLE `r_p` DISABLE KEYS */;
-INSERT INTO `r_p` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10);
+INSERT INTO `r_p` VALUES (1,1),(1,2),(2,2),(1,3),(2,3),(1,4),(2,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10);
 /*!40000 ALTER TABLE `r_p` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +129,7 @@ CREATE TABLE `role` (
   `r_id` int(11) NOT NULL AUTO_INCREMENT,
   `r_name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`r_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +138,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'管理员');
+INSERT INTO `role` VALUES (1,'管理员'),(2,'普通用户');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +157,7 @@ CREATE TABLE `student` (
   PRIMARY KEY (`s_id`),
   KEY `grade_id` (`grade_id`),
   CONSTRAINT `student_ibfk_1` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`g_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,6 +166,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES (1,'Tom',1,1),(2,'MQ',0,1),(3,'James',1,3);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +187,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`r_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +196,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'daniel','123456','2020-06-22 14:40:39',1);
+INSERT INTO `user` VALUES (1,'daniel','123456','2020-06-22 14:40:39',1),(2,'mq','123456','2020-06-23 18:42:22',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -207,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-22 16:43:51
+-- Dump completed on 2020-06-23 19:24:29
