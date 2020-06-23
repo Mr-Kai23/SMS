@@ -195,19 +195,19 @@ def add_user_per():
     :return:
     """
     if request.method == 'GET':
-        r_id = request.form.get('r_id')
-        pers = Permission.query.all()
+        r_id = request.args.get('r_id')
+        permissions = Permission.query.all()
 
-        return render_template('add_user_per.html', pers=pers, r_id=r_id)
+        return render_template('user_per_add.html', permissions=permissions, r_id=r_id)
 
     if request.method == 'POST':
         r_id = request.form.get('r_id')
         p_id = request.form.get('p_id')
 
         # 获取对象角色
-        role = Role.query.get(r_id=r_id)
+        role = Role.query.get(int(r_id))
         # 获取权限对象
-        per = Permission.query.get(p_id=p_id)
+        per = Permission.query.get(int(p_id))
 
         # 添加对应关系
         per.roles.append(role)
@@ -215,7 +215,7 @@ def add_user_per():
         per.save()
 
         # 重定向到 roles_list 函数, user:蓝图名称
-        return redirect(url_for('user.roles_list'))
+        return redirect(url_for('user.role_list'))
 
 
 @user_bp.route('/user_per_sub/', methods=['GET', 'POST'])
@@ -226,8 +226,8 @@ def sub_user_per():
     :return:
     """
     if request.method == 'GET':
-        r_id = request.form.get('r_id')
-        pers = Role.query.get(r_id=r_id).permission
+        r_id = request.args.get('r_id')
+        pers = Role.query.get(int(r_id)).permission
 
         return render_template('user_per_list.html', pers=pers, r_id=r_id)
 
@@ -236,19 +236,19 @@ def sub_user_per():
         p_id = request.form.get('p_id')
 
         # 获取对象角色
-        role = Role.query.get(r_id=r_id)
+        role = Role.query.get(int(r_id))
         # 获取权限对象
-        per = Permission.query.get(p_id=p_id)
+        per = Permission.query.get(int(p_id))
 
         # 添加对应关系
         per.roles.remove(role)
 
         db.session.commit()
 
-        pers = Role.query.get(r_id=r_id).permission
+        permissions = Role.query.get(int(r_id)).permission
 
         # 重定向到 roles_list 函数, user:蓝图名称
-        return render_template('user_per_list.html', pers=pers, r_id=r_id)
+        return render_template('user_per_list.html', permissions=permissions, r_id=r_id)
 
 
 @user_bp.route('/user_list/', methods=['GET'])
@@ -291,8 +291,8 @@ def edit_user():
     if request.method == 'POST':
         # 获取用户注册信息
         username = request.form['username']
-        pwd1 = request.form['pwd1']
-        pwd2 = request.form['pwd2']
+        pwd1 = request.form['password1']
+        pwd2 = request.form['password2']
 
         # 定义个变量来控制过滤用户填写的信息
         flag = True
@@ -318,11 +318,11 @@ def edit_user():
         if 'u_id' in request.form and request.form['u_id']:
             user = User.query.get(u_id=int(request.form['u_id']))
 
-        else:
-            user = User()
+            user.username = username
+            user.password = pwd1
 
-        user.username = username
-        user.password = pwd1
+        else:
+            user = User(username=username, password=pwd1)
 
         user.save()
 
