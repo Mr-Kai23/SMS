@@ -2,7 +2,7 @@
 # ======================================================
 # @Author  :   Daniel                 
 # @Time    :   2020.6.20
-# @Desc    :   App创建
+# @Desc    :   App创建、初始化
 # ======================================================
 
 import os
@@ -32,7 +32,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123456@127.0.0.1:3306/sms'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # 设置session秘钥
+    # 设置session秘钥，用于和session内容生成hash值，防止内容被串改
     app.config['SECRET_KEY'] = 'secret_key'
     # 设置session存储库， 使用redis
     app.config['SESSION_TYPE'] = 'redis'

@@ -6,7 +6,7 @@
 # ======================================================
 
 from flask import Blueprint, request, render_template, session, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, login_user, logout_user
 
 from .models import db
 from utils.check_login import is_login
@@ -146,8 +146,9 @@ def login():
         user = User.query.filter_by(username=username, password=pwd).first()
 
         if user:
-            session['user_id'] = user.u_id
-            session['username'] = username
+            login_user(user)
+            # session['user_id'] = user.u_id
+            # session['username'] = username
 
             return render_template('index.html')
         else:
@@ -165,7 +166,8 @@ def logout():
     if request.method == 'GET':
 
         # 清空session
-        session.clear()
+        # session.clear()
+        logout_user()
 
         # 跳转到登录页面
         return redirect(url_for('user.login'))

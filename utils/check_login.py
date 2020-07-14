@@ -16,7 +16,7 @@ def is_login(func):
     """
     @wraps(func)
     def check_login(*args, **kwargs):
-        user_id = session.get('user_id')
+        user_id = session.get('_user_id')
 
         if user_id:
             return func(*args, **kwargs)

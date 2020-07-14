@@ -66,6 +66,7 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(100))
     u_create_time = db.Column(db.DateTime, default=datetime.now)
+    is_active = db.Column(db.Boolean, default=True)
 
     # 用户和角色的一对多的关联关系
     role_id = db.Column(db.Integer, db.ForeignKey('role.r_id'))
